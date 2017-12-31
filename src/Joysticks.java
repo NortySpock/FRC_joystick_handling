@@ -3,6 +3,10 @@ public class Joysticks {
 
     private double jv[] = { -1, -0.5, -0.04, 0.0, 0.04, 0.5, 1 };
 
+    // This function takes two "tank drive" joystick inputs, and attempts to
+    // reconcile them into one forward power setting to be used when the robot
+    // has been set to drive straight. Effectively we want to use the greater of
+    // the two inputs, provided they are not conflicting.
     public double determine_max_joystick(double joy1, double joy2) {
         double deadzone_factor = 0.05;
         // manual deadzone setting
@@ -26,6 +30,9 @@ public class Joysticks {
         }
     }
 
+    // this function takes an input gyro reading of how far the robot is off
+    // axis, and a requested power level, and uses that to correct for any
+    // deviation from a straight line while maintaining the reqested speed.
     public void straight(double gyro, double power) {
         // Leading and trailing motors, will be converted to L and R
         double leading = 0, trailing = 0;
@@ -51,7 +58,8 @@ public class Joysticks {
         // leading gets a percentage of max power
         leading = power * (1 - subtractedPower);
 
-        // assume negative is left and positive is right IF we are moving forwards
+        // assume negative is left and positive is right IF we are moving
+        // forwards
         if (gyro < 0 && power > 0) {
             leftM = trailing;
             rightM = leading;
@@ -67,7 +75,7 @@ public class Joysticks {
         System.out.println(sb.toString());
     }
 
-    public void straightTest() {
+    public void demonstrate_driving_straight() {
         for (double j = -1; j <= 1; j += 0.5) {
             for (int i = -45; i <= 45; i += 15) {
 
@@ -76,14 +84,14 @@ public class Joysticks {
         }
     }
 
-    public void maxTest() {
+    public void demonstrate_maximum_joystick_power_selection() {
         for (int i = 0; i < jv.length; i++) {
             for (int j = 0; j < jv.length; j++) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(jv[i]);
-                sb.append(" | ");
+                sb.append("L vs ");
                 sb.append(jv[j]);
-                sb.append(" -> ");
+                sb.append("R -> ");
                 sb.append(determine_max_joystick(jv[i], jv[j]));
                 System.out.println(sb.toString());
             }

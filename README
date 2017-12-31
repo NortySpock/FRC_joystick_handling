@@ -1,0 +1,16 @@
+This code demonstrates a small pet project I have had for the gyroscope 
+installed on our FIRST Robotics robot. The idea is that there will be an 
+option on the driver's controls that, when held down, drives the robot 
+only in a straight line. 
+
+To do that we need to 
+(1) normalize the two joystick inputs to a single power level and
+(2) Take the gyro input and apply that power level to the wheels
+(2a) with a modifier that slows the leading wheel.
+
+This code demonstrates that behavior; there should only be minor tweaks 
+needed to put it into a robot. 
+
+
+
+
